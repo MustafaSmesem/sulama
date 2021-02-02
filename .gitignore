@@ -35,3 +35,4 @@ build/
 !**/target/
 sulama-service/src/main/**/templates
 .DS_Store
+/sulama-db/
