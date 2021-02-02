@@ -7,22 +7,19 @@ import java.util.Date;
 
 @Entity
 @Data
-@Table(indexes = {@Index(columnList = "deleted", name = "INX_DEVICE_deleted")})
 public class Device {
 
     @Id
     private Long deviceId;
     private String deviceName;
-    private Integer roleCount;
-    private Date deviceActivatedDate;
-    private Date deviceLicenceExpiredDate;
+    private Integer relayCount;
+    private Date deviceActivationDate;
     private Double locationLatitude;
     private Double locationLongitude;
-    private String deviceLicence;
     private boolean deleted;
 
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
 
 }
