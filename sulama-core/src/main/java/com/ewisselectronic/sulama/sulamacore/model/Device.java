@@ -18,7 +18,7 @@ public class Device {
     private Double locationLongitude;
     private boolean deleted;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
 

@@ -17,7 +17,7 @@ public class Relay {
     private String relayName;
     private Boolean hasHumiditySensor;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "deviceId")
     private Device device;
 
