@@ -1,0 +1,67 @@
+project:
+  name: Sulama Service
+  description: API Application
+  appTag: sulamaMainService
+  mainPath: /sulama/
+
+spring:
+  application:
+    name: sulama-service
+  jpa:
+    open-in-view: true
+    database: POSTGRESQL
+    show-sql: false
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/sulama?characterEncoding=UTF-8
+    username: postgres
+    password: 21373582
+    initialization-mode: never
+    driverClassName: org.postgresql.Driver
+    tomcat:
+      connection-properties: characterEncoding=utf-8;
+    hikari:
+      data-source-properties:
+        characterEncoding: UTF-8
+  servlet:
+    multipart:
+      max-file-size: 1000MB
+      max-request-size: 1000MB
+
+logging:
+  level:
+    root: WARN
+    net:
+      bramp:
+        ffmpeg:
+          progress:
+            Progress: ERROR
+    org:
+      springframework:
+        web: WARN
+      hibernate: ERROR
+
+
+# ===============================
+# = SERVER
+# ===============================
+server:
+  port: 6622
+  servlet:
+    context-path: /sulama
+
+# ===============================
+# = SECURITY
+# ===============================
+security:
+  jwt:
+    secret: tmo3Wtfs!
