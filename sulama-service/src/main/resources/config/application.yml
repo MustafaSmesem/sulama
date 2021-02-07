@@ -15,6 +15,7 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+      ddl-auto: create
     properties:
       hibernate:
         jdbc:
@@ -22,8 +23,8 @@ spring:
             non_contextual_creation: true
   datasource:
     platform: postgres
-    url: jdbc:postgresql://localhost:5432/sulama?characterEncoding=UTF-8
-    username: postgres
+    url: jdbc:postgresql://206.81.17.83:5432/sulama?characterEncoding=UTF-8
+    username: sulamaadmin
     password: 21373582
     initialization-mode: never
     driverClassName: org.postgresql.Driver

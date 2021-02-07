@@ -13,7 +13,7 @@ public class InitializingBeanConfig implements InitializingBean {
     public void afterPropertiesSet(){
         System.out.println(Log.ANSI_GREEN +
                 new Timestamp(System.currentTimeMillis()) + " " +
-                "[ARPANET Solab Service] " +
+                "[Sulamar Service] " +
                 "Application started successfully!" +
                 Log.ANSI_RESET);
     }

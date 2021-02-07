@@ -11,7 +11,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories({"com.ewisselectronic.sulama.sulamacore"})
 @EntityScan({"com.ewisselectronic.sulama.sulamacore.model"})
 public class SulamaServiceApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(SulamaServiceApplication.class, args);
     }

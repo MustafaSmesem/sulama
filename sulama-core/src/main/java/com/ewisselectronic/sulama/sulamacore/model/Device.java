@@ -10,7 +10,7 @@ import java.util.Date;
 public class Device {
 
     @Id
-    private Long deviceId;
+    private String deviceId;
     private String deviceName;
     private Integer relayCount;
     private Date deviceActivationDate;
