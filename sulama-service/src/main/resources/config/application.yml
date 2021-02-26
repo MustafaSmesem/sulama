@@ -41,15 +41,8 @@ spring:
 logging:
   level:
     root: WARN
-    net:
-      bramp:
-        ffmpeg:
-          progress:
-            Progress: ERROR
     org:
-      springframework:
-        web: WARN
-      hibernate: ERROR
+    springframework: ERROR
 
 
 # ===============================
@@ -66,3 +59,12 @@ server:
 security:
   jwt:
     secret: tmo3Wtfs!
+
+
+tcp-socket:
+  port: 6623
+  heartbeat:
+    timeout: 6000
+  client-test:
+    state: false
+    number: 5

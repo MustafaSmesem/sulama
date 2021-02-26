@@ -5,4 +5,4 @@ ${AnsiColor.BRIGHT_BLUE}  ######  ##     ## ##       ##     ## ## ### ## ##     
 ${AnsiColor.BRIGHT_BLUE}       ## ##     ## ##       ######### ##     ## #########
 ${AnsiColor.BRIGHT_BLUE} ##    ## ##     ## ##       ##     ## ##     ## ##     ##
 ${AnsiColor.BRIGHT_BLUE}  ######   #######  ######## ##     ## ##     ## ##     ##
-                                    ${AnsiColor.RED}2021 © EwissElectronic${AnsiColor.WHITE}
+                                    ${AnsiColor.RED}2021 © EwissElectronic${AnsiColor.BRIGHT_WHITE}
