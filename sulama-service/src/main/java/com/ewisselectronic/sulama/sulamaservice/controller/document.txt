@@ -1,0 +1,88 @@
+add new device:
+request:
+    url: /sulama/api/devices/save
+    type: post
+    headers:
+        authorization: admin barer token
+        requestBody: {
+                         "deviceId": device_id [String],
+                         "deviceName": device_name [String],
+                         "relayCount": relay_count [Integer],
+                         "deviceActivationDate": device_activation_date [Date] default now date,
+                         "locationLatitude": device_location_latitude [double] default null,
+                         "locationLongitude": device_location_longitude [double] default null,
+                         "user": user_id [Integer]
+                     }
+
+
+delete device:
+request:
+    url: /sulama/api/devices/delete/[device_id]
+    type: delete
+    headers:
+        authorization: admin barer token
+
+
+get user devices:
+request:
+    url: /sulama/api/devices/getByUser/[user_id]
+    type: get
+    headers:
+       authorization: user barer token
+
+response: [list of short devices object]
+            [
+                {
+                    "deviceId": device_id [String],
+                    "deviceName": device_name [String],
+                    "relayCount": relay_count [Integer],
+                    "deviceActivationDate": device_activation_date [Date],
+                    "locationLatitude": device_location_latitude [double],
+                    "locationLongitude": device_location_longitude [double],
+                    "user": user_id [Integer]
+                },
+                ...
+            ]
+
+
+get all devices[ADMIN]:
+request:
+    url: /sulama/api/devices/getAll
+    Type: get
+    headers:
+        authorization: admin barer token
+
+response: [list of full devices object]
+        [
+            {
+                "deviceId": device_id [String],
+                "deviceName": device_name [String],
+                "relayCount": relay_count [Integer],
+                "deviceActivationDate": device_activation_date [Date],
+                "locationLatitude": device_location_latitude [double],
+                "locationLongitude": device_location_longitude [double],
+                "deleted": is_device_deleted [boolean],
+                "user": user_obj [User]
+                    {
+                        "id": user_id [Integer],
+                        "name": user_display_name [String],
+                        "surname": user_display_surname [String],
+                        "username": user_login_name [String],
+                        "password": user_empty_password [empty String],
+                        "roles": roles_list [Role]
+                            [
+                                {
+                                    "id": role_id [Integer],
+                                    "roleName": role_name [String],
+                                    "description": role_description [String]
+                                },
+                                ...
+                            ],
+                        "enabled": is_enabled [boolean],
+                        "admin": is_admin [boolean],
+                        "lastInteractionTime": user_last_interaction_date [Date],
+                        "loginCount": user_login_count [Integer]
+                    }
+            },
+            ...
+        ]
