@@ -23,7 +23,7 @@ spring:
             non_contextual_creation: true
   datasource:
     platform: postgres
-    url: jdbc:postgresql://206.81.17.83:5432/sulama?characterEncoding=UTF-8
+    url: jdbc:postgresql://localhost:5432/sulama?characterEncoding=UTF-8
     username: sulamaadmin
     password: 21373582
     initialization-mode: never
