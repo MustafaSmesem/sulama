@@ -1,13 +1,12 @@
 package com.ewisselectronic.sulama.sulamaservice.controller;
 
 import com.ewisselectronic.sulama.sulamacore.model.Device;
-import com.ewisselectronic.sulama.sulamacore.model.Role;
 import com.ewisselectronic.sulama.sulamacore.model.User;
 import com.ewisselectronic.sulama.sulamacore.model.request.DeviceRequest;
 import com.ewisselectronic.sulama.sulamacore.service.DeviceService;
 import com.ewisselectronic.sulama.sulamacore.service.UserService;
 import com.ewisselectronic.sulama.sulamaservice.model.SaveResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +17,11 @@ import java.util.List;
 
 
 @RestController
+@AllArgsConstructor
 public class DeviceController {
 
-    @Autowired
-    private DeviceService deviceService;
-
-    @Autowired
-    private UserService userService;
+    private final DeviceService deviceService;
+    private final UserService userService;
 
 
     @GetMapping(value = "/api/devices/getAll", produces = "application/json")
