@@ -74,12 +74,12 @@ public class DeviceController {
         }
     }
 
-    @DeleteMapping(value = "/{itemId}", produces = "application/json")
+    @DeleteMapping(value = "/{deviceId}", produces = "application/json")
     @PreAuthorize("hasAuthority('ADMIN_USER')")
-    public SaveResponse deleteDevice(@PathVariable("itemId") String itemId) {
+    public SaveResponse deleteDevice(@PathVariable("deviceId") String deviceId) {
         try {
-            deviceService.delete(itemId);
-            return new SaveResponse(true, String.format("Device [%s] deleted successfully", itemId), null);
+            deviceService.delete(deviceId);
+            return new SaveResponse(true, String.format("Device [%s] deleted successfully", deviceId), null);
         } catch (Exception e) {
             return new SaveResponse(false, e.getMessage(), null);
         }

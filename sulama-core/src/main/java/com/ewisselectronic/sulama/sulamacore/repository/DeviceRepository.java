@@ -19,4 +19,6 @@ public interface DeviceRepository extends CrudRepository<Device, String> {
     @Transactional
     @Query("update Device d set d.deleted = true where d.deviceId = :itemId")
     void deleteDeviceById(@Param(value = "itemId")String itemId);
+
+    List<Device> findAllByDeletedFalse();
 }

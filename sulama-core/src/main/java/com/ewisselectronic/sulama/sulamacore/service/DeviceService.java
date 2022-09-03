@@ -30,6 +30,6 @@ public class DeviceService {
     }
 
     public List<Device> getAll() {
-        return (List<Device>) deviceRepository.findAll();
+        return deviceRepository.findAllByDeletedFalse();
     }
 }
