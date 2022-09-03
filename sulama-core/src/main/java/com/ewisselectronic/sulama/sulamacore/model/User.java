@@ -1,9 +1,11 @@
 package com.ewisselectronic.sulama.sulamacore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +20,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERS_SEQ")
     private Integer id;
 
+    @NotEmpty
     private String name;
 
     private String surname;
@@ -25,6 +28,7 @@ public class User {
     @Column(unique = true, nullable = false)
     private String username;
 
+    @JsonIgnore
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)

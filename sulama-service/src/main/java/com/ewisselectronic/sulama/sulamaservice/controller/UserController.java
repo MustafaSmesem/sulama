@@ -5,6 +5,7 @@ import com.ewisselectronic.sulama.sulamacore.model.User;
 import com.ewisselectronic.sulama.sulamacore.service.UserService;
 import com.ewisselectronic.sulama.sulamaservice.model.ChangePassword;
 import com.ewisselectronic.sulama.sulamaservice.model.SaveResponse;
+import com.ewisselectronic.sulama.sulamaservice.model.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -12,17 +13,19 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "/api/users/getAll", produces = "application/json")
+    @GetMapping(value = "/all", produces = "application/json")
     @PreAuthorize("hasAuthority('ADMIN_USER')")
     public ResponseEntity<?> getAllUsers(@RequestParam(value = "pageSize", required = false) Optional<Integer> pageSize,
                                          @RequestParam(value = "pageNumber", required = false) Optional<Integer> pageNumber,
@@ -37,21 +40,20 @@ public class UserController {
         return ResponseEntity.ok(userPage);
     }
 
-    @PostMapping(value = "/api/users/save", produces = "application/json")
+    @PostMapping(value = "", produces = "application/json")
     @PreAuthorize("hasAuthority('ADMIN_USER')")
-    public SaveResponse saveUser(@RequestBody User formUser) {
+    public SaveResponse saveUser(@Valid @RequestBody UserRequest formUser) {
         try {
-            User user;
+            String state = "created";
+            User user = new User();
             if(formUser.getId() != null) {
                 user = userService.get(formUser.getId());
-            } else {
-                user = new User();
+                state = "updated";
             }
 
             user.setName(formUser.getName());
             user.setSurname(formUser.getSurname());
             user.setUsername(formUser.getUsername());
-
             List<Role> roles = new ArrayList<>();
             Role standardRole = new Role();
             standardRole.setId(1);
@@ -74,33 +76,36 @@ public class UserController {
             } else {
                 userService.update(user);
             }
-            return new SaveResponse(true, null, (long) user.getId());
+            return new SaveResponse(true, String.format("User %s %s successfully", user.getUsername(), state), (long) user.getId());
         } catch (Exception e) {
-            return new SaveResponse(false, e.getMessage(), null);
+            return new SaveResponse(false, e.getCause().getCause().getMessage(), null);
         }
     }
 
-    @GetMapping(value = "/api/users/get/{itemId}", produces = "application/json")
+    @GetMapping(value = "/{userId}", produces = "application/json")
     @PreAuthorize("hasAuthority('ADMIN_USER')")
-    public User getUser(@PathVariable("itemId") Integer itemId) {
-        User user = userService.get(itemId);
-        user.setPassword("");
-        return user;
+    public User getUserById(@PathVariable("userId") Integer userId) {
+        return userService.get(userId);
+    }
+    @GetMapping(value = "", produces = "application/json")
+    @PreAuthorize("hasAuthority('STANDARD_USER')")
+    public User getUser(@RequestAttribute int userId) {
+        return userService.get(userId);
     }
 
 
-    @PostMapping(value = "/api/users/changePassword", produces = "application/json")
+    @PostMapping(value = "/changePassword", produces = "application/json")
     @PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('STANDARD_USER')")
-    public SaveResponse changePassword(@RequestBody ChangePassword changePassword) {
+    public SaveResponse changePassword(@RequestAttribute int userId,@Valid @RequestBody ChangePassword changePassword) {
         try {
-            if ((changePassword.getPassword().equals(changePassword.getPasswordConfirm())) && changePassword.getId() != null) {
-                User user = userService.get(changePassword.getId());
-                user.setPassword(BCrypt.hashpw(changePassword.getPassword(), BCrypt.gensalt()));
-                userService.save(user);
-                return new SaveResponse(true, null, null);
-            } else {
-                return new SaveResponse(false, "Yazdığınız şifreler uyuşmuyor!", null);
-            }
+            if (!changePassword.getPassword().equals(changePassword.getPasswordConfirm()))
+                return new SaveResponse(false, "Password & password confirm must be identical", null);
+
+            User user = userService.get(userId);
+            user.setPassword(BCrypt.hashpw(changePassword.getPassword(), BCrypt.gensalt()));
+            userService.save(user);
+            return new SaveResponse(true, "Password has been changed successfully for user " + user.getName(), null);
+
         } catch (Exception e) {
             return new SaveResponse(false, e.getMessage(), null);
         }

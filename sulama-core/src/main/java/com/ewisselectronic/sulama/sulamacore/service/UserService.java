@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AspectLogged
@@ -20,24 +21,21 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public boolean save(User user) {
+    public void save(User user) {
         userRepository.save(user);
-        return true;
     }
 
-    public boolean update(User user) {
+    public void update(User user) {
         userRepository.save(user);
-        return true;
     }
 
     public User get(Integer id) {
-        User user = userRepository.findById(id).get();
-        return user;
+        Optional<User> user = userRepository.findById(id);
+        return user.orElse(null);
     }
 
     public User get(String username) {
-        User user = userRepository.findByUsername(username);
-        return user;
+        return userRepository.findByUsername(username);
     }
 
     /**

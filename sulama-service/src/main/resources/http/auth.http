@@ -4,12 +4,12 @@
 #    "username": "admin",
 #    "password": "pwd123456"
 #}'
-POST http://localhost:6622/sulama/authenticate
+POST {{host}}/sulama/authenticate
 Content-Type: application/json
 
 {
     "username": "dev",
-    "password": "pwd123456"
+    "password": "test!4252E"
 }
 
 ###

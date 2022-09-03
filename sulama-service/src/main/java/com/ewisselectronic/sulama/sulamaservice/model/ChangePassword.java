@@ -1,10 +1,11 @@
 package com.ewisselectronic.sulama.sulamaservice.model;
 
+import com.ewisselectronic.sulama.sulamacore.annotation.constraint.ValidPassword;
 import lombok.Data;
 
 @Data
 public class ChangePassword {
-    private final Integer id;
-    private final String password;
-    private final String passwordConfirm;
+    @ValidPassword
+    private String password;
+    private String passwordConfirm;
 }
