@@ -1,0 +1,44 @@
+# curl --location --request GET 'http://localhost:6622/sulama/api/device'
+#--header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXYiLCJleHAiOjE2NjIyMTA5MDksImlhdCI6MTY2MjE5MjkwOX0.94REWOgRaz2_aRo5UPDYG-TvsyvI8xoP89P1Vht4hjljR0WbtgpvnKjJ8Ap6mci8Sl1EKlvTjheMK5jOXyGSmQ'
+GET http://localhost:6622/sulama/api/device
+Authorization: {{token}}
+
+###
+
+# curl --location --request GET 'http://localhost:6622/sulama/api/device/all'
+#--header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY2MjIwMzU4MywiaWF0IjoxNjYyMTg1NTgzfQ.FlYQG4u9o-bo7u2yS18_2QE5i-xTe1wx5hBK7b9Qv5-Ew83eern9D9mOK1iKNNKh0h-lc-nAThZPMRtC-fH1gA'
+GET {{host}}/sulama/api/device/all
+Authorization: {{token}}
+
+###
+
+
+
+# curl --location --request POST 'http://localhost:6622/sulama/api/device'
+#--header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY2MjIwMzU4MywiaWF0IjoxNjYyMTg1NTgzfQ.FlYQG4u9o-bo7u2yS18_2QE5i-xTe1wx5hBK7b9Qv5-Ew83eern9D9mOK1iKNNKh0h-lc-nAThZPMRtC-fH1gA'
+#--header 'Content-Type: application/json'
+#--data-raw '{
+#    "deviceId": "ab9807675800401e9",
+#    "deviceName": "bahaa test",
+#    "relayCount": 4,
+#    "deviceActivationDate": null,
+#    "locationLatitude": 39.992439833888874,
+#    "locationLongitude": 32.64762149331831,
+#    "userId": 1
+#}'
+POST {{host}}/sulama/api/device
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "deviceId": "ab9807675800401e9",
+    "deviceName": "bahaa test",
+    "relayCount": 8,
+    "deviceActivationDate": null,
+    "locationLatitude": 39.992439833888874,
+    "locationLongitude": 32.64762149331831,
+    "userId": 1
+}
+
+###
+

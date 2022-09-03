@@ -1,0 +1,16 @@
+# curl --location --request POST 'http://localhost:6622/sulama/authenticate'
+#--header 'Content-Type: application/json'
+#--data-raw '{
+#    "username": "admin",
+#    "password": "pwd123456"
+#}'
+POST http://localhost:6622/sulama/authenticate
+Content-Type: application/json
+
+{
+    "username": "dev",
+    "password": "pwd123456"
+}
+
+###
+
