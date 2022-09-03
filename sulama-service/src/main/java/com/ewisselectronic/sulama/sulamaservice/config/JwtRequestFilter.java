@@ -1,8 +1,10 @@
 package com.ewisselectronic.sulama.sulamaservice.config;
 
 import com.ewisselectronic.sulama.sulamacore.service.AppUserDetailsService;
+import com.ewisselectronic.sulama.sulamacore.utils.AppUserPrincipal;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,13 +20,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
+@AllArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private AppUserDetailsService appUserDetailsService;
-
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private final AppUserDetailsService appUserDetailsService;
+    private final JwtTokenUtil jwtTokenUtil;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -52,8 +52,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         //Once we get the token validate it.
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-            UserDetails userDetails = this.appUserDetailsService.loadUserByUsername(username);
+            AppUserPrincipal userDetails = this.appUserDetailsService.loadUserByUsername(username);
+            request.setAttribute("userId", userDetails.getId());
 
             // if token is valid configure Spring Security to manually set authentication
             if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {

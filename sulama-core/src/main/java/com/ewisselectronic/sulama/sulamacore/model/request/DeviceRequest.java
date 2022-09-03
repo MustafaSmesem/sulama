@@ -18,14 +18,14 @@ public class DeviceRequest {
     private Date deviceActivationDate;
     private Double locationLatitude;
     private Double locationLongitude;
-    private int user;
+    private int userId;
 
     public DeviceRequest(Device device) {
         deviceId = device.getDeviceId();
         deviceName = device.getDeviceName();
         relayCount = device.getRelayCount();
         deviceActivationDate = device.getDeviceActivationDate();
-        user = device.getUser().getId();
+        userId = device.getUser().getId();
         locationLatitude = device.getLocationLatitude();
         locationLongitude = device.getLocationLongitude();
     }

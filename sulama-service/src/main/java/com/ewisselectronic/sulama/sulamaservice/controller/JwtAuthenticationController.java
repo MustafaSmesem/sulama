@@ -8,7 +8,7 @@ import com.ewisselectronic.sulama.sulamaservice.config.JwtTokenUtil;
 import com.ewisselectronic.sulama.sulamaservice.model.JwtBadResponse;
 import com.ewisselectronic.sulama.sulamaservice.model.JwtRequest;
 import com.ewisselectronic.sulama.sulamaservice.model.JwtResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,22 +24,14 @@ import java.util.Objects;
 
 @RestController
 @CrossOrigin
+@AllArgsConstructor
 public class JwtAuthenticationController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private AppUserDetailsService appUserDetailsService;
-
-
-    private UserDetailsService jwtInMemoryUserDetailsService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenUtil jwtTokenUtil;
+    private final UserService userService;
+    private final AppUserDetailsService appUserDetailsService;
+    private final UserDetailsService jwtInMemoryUserDetailsService;
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> generateAuthenticationToken(@RequestBody JwtRequest authenticationRequest) {

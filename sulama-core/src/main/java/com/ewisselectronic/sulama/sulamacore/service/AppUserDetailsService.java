@@ -3,7 +3,7 @@ package com.ewisselectronic.sulama.sulamacore.service;
 import com.ewisselectronic.sulama.sulamacore.model.User;
 import com.ewisselectronic.sulama.sulamacore.repository.UserRepository;
 import com.ewisselectronic.sulama.sulamacore.utils.AppUserPrincipal;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,9 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@AllArgsConstructor
 public class AppUserDetailsService implements UserDetailsService {
-    @Autowired
-    private UserRepository userRepository;
+
+    private final UserRepository userRepository;
 
     @Override
     public AppUserPrincipal loadUserByUsername(String s) throws UsernameNotFoundException {

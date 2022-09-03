@@ -3,7 +3,7 @@ package com.ewisselectronic.sulama.sulamacore.service;
 import com.ewisselectronic.sulama.sulamacore.annotation.AspectLogged;
 import com.ewisselectronic.sulama.sulamacore.model.User;
 import com.ewisselectronic.sulama.sulamacore.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,10 +15,10 @@ import java.util.List;
 
 @Service
 @AspectLogged
+@AllArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public boolean save(User user) {
         userRepository.save(user);

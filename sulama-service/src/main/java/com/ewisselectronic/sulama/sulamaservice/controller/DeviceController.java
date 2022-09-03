@@ -18,28 +18,27 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/api/device")
 public class DeviceController {
 
     private final DeviceService deviceService;
     private final UserService userService;
 
 
-    @GetMapping(value = "/api/devices/getAll", produces = "application/json")
+    @GetMapping(value = "/all", produces = "application/json")
     @PreAuthorize("hasAuthority('ADMIN_USER')")
     public ResponseEntity<?> getAllDevices() {
         List<Device> devices = deviceService.getAll();
+        List<DeviceRequest> resultDevices = new ArrayList<>();
         devices.forEach(device -> {
-            User user = device.getUser();
-            user.setPassword("");
-            device.setUser(user);
+            resultDevices.add(new DeviceRequest(device));
         });
-        return ResponseEntity.ok(devices);
+        return ResponseEntity.ok(resultDevices);
     }
 
 
-    @GetMapping(value = "/api/devices/getByUser/{userId}", produces = "application/json")
-    @PreAuthorize("hasAuthority('STANDARD_USER')")
-    public ResponseEntity<?> getAllDevicesByUser(@PathVariable("userId") int userId) {
+    @GetMapping(value = "", produces = "application/json")
+    public ResponseEntity<?> getAllDevicesByUser(@RequestAttribute("userId") int userId) {
         List<DeviceRequest> devices = new ArrayList<>();
         deviceService.getDevicesByUser(userId).forEach(device -> {
             devices.add(new DeviceRequest(device));
@@ -48,7 +47,7 @@ public class DeviceController {
     }
 
 
-    @PostMapping(value = "/api/devices/save", produces = "application/json")
+    @PostMapping(value = "", produces = "application/json")
     @PreAuthorize("hasAuthority('ADMIN_USER')")
     public SaveResponse saveDevice(@RequestBody DeviceRequest deviceRequest) {
         try {
@@ -61,7 +60,7 @@ public class DeviceController {
                 device.setLocationLatitude(deviceRequest.getLocationLatitude());
             if (deviceRequest.getLocationLongitude() != null)
                 device.setLocationLongitude(deviceRequest.getLocationLongitude());
-            User user = userService.get(deviceRequest.getUser());
+            User user = userService.get(deviceRequest.getUserId());
             if (user != null)
                 device.setUser(user);
             else
@@ -75,7 +74,7 @@ public class DeviceController {
         }
     }
 
-    @DeleteMapping(value = "/api/devices/delete/{itemId}", produces = "application/json")
+    @DeleteMapping(value = "/{itemId}", produces = "application/json")
     @PreAuthorize("hasAuthority('ADMIN_USER')")
     public SaveResponse deleteDevice(@PathVariable("itemId") String itemId) {
         try {
