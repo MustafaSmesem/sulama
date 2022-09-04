@@ -1,4 +1,4 @@
-package com.ewisselectronic.sulama.sulamaservice.model;
+package com.ewisselectronic.sulama.sulamaservice.model.user;
 
 import lombok.Data;
 

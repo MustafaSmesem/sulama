@@ -1,6 +1,7 @@
-package com.ewisselectronic.sulama.sulamaservice.model;
+package com.ewisselectronic.sulama.sulamaservice.model.user;
 
 import com.ewisselectronic.sulama.sulamacore.annotation.constraint.ValidPassword;
+import com.ewisselectronic.sulama.sulamacore.annotation.constraint.ValidUsername;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -13,8 +14,7 @@ public class CreateUserRequest {
     @NotEmpty
     private String name;
     private String surname;
-    @NotEmpty
-    @NotBlank
+    @ValidUsername
     private String username;
 
     @ValidPassword

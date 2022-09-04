@@ -1,4 +1,4 @@
-package com.ewisselectronic.sulama.sulamaservice.model;
+package com.ewisselectronic.sulama.sulamaservice.model.auth;
 
 import com.ewisselectronic.sulama.sulamacore.annotation.constraint.ValidPassword;
 import lombok.Data;

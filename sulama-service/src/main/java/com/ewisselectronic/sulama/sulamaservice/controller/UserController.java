@@ -3,10 +3,10 @@ package com.ewisselectronic.sulama.sulamaservice.controller;
 import com.ewisselectronic.sulama.sulamacore.model.Role;
 import com.ewisselectronic.sulama.sulamacore.model.User;
 import com.ewisselectronic.sulama.sulamacore.service.UserService;
-import com.ewisselectronic.sulama.sulamaservice.model.ChangePassword;
+import com.ewisselectronic.sulama.sulamaservice.model.auth.ChangePassword;
 import com.ewisselectronic.sulama.sulamaservice.model.SaveResponse;
-import com.ewisselectronic.sulama.sulamaservice.model.CreateUserRequest;
-import com.ewisselectronic.sulama.sulamaservice.model.UpdateUserRequest;
+import com.ewisselectronic.sulama.sulamaservice.model.user.CreateUserRequest;
+import com.ewisselectronic.sulama.sulamaservice.model.user.UpdateUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -75,12 +76,13 @@ public class UserController {
         user.setEnabled(formUser.isEnabled());
         user.setAdmin(formUser.isAdmin());
         userService.update(user);
-        return new SaveResponse(true, String.format("User %s created successfully", user.getUsername()), (long) user.getId());
+        return new SaveResponse(true, String.format("User %s updated successfully", user.getUsername()), (long) user.getId());
     }
 
 
     private List<Role> getRoles(boolean isAdmin) {
-        List<Role> roles = Arrays.asList(new Role(1));
+        List<Role> roles = new ArrayList<>();
+        roles.add(new Role(1));
         if(isAdmin) {
             roles.add(new Role(2));
         }
