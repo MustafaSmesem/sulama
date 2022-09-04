@@ -7,8 +7,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 @Data
-public class UserRequest {
-    private Integer id;
+public class CreateUserRequest {
+
     @NotBlank
     @NotEmpty
     private String name;

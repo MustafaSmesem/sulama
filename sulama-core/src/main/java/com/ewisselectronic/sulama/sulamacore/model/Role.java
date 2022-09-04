@@ -13,6 +13,10 @@ import javax.persistence.*;
 @Table(name = "\"app_role\"")
 public class Role {
 
+    public Role(Integer id) {
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

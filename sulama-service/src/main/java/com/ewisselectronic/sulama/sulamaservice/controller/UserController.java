@@ -5,7 +5,8 @@ import com.ewisselectronic.sulama.sulamacore.model.User;
 import com.ewisselectronic.sulama.sulamacore.service.UserService;
 import com.ewisselectronic.sulama.sulamaservice.model.ChangePassword;
 import com.ewisselectronic.sulama.sulamaservice.model.SaveResponse;
-import com.ewisselectronic.sulama.sulamaservice.model.UserRequest;
+import com.ewisselectronic.sulama.sulamaservice.model.CreateUserRequest;
+import com.ewisselectronic.sulama.sulamaservice.model.UpdateUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,44 +43,48 @@ public class UserController {
 
     @PostMapping(value = "", produces = "application/json")
     @PreAuthorize("hasAuthority('ADMIN_USER')")
-    public SaveResponse saveUser(@Valid @RequestBody UserRequest formUser) {
+    public SaveResponse createUser(@Valid @RequestBody CreateUserRequest formUser) {
         try {
-            String state = "created";
             User user = new User();
-            if(formUser.getId() != null) {
-                user = userService.get(formUser.getId());
-                state = "updated";
-            }
 
             user.setName(formUser.getName());
             user.setSurname(formUser.getSurname());
             user.setUsername(formUser.getUsername());
-            List<Role> roles = new ArrayList<>();
-            Role standardRole = new Role();
-            standardRole.setId(1);
-            roles.add(standardRole);
-            if(formUser.isAdmin()) {
-                Role adminRole = new Role();
-                adminRole.setId(2);
-                roles.add(adminRole);
-            }
+
             if (formUser.getPassword() != null && !formUser.getPassword().equals("") && !formUser.getPassword().isEmpty()) {
                 user.setPassword(BCrypt.hashpw(formUser.getPassword(), BCrypt.gensalt()));
             }
-            user.setRoles(roles);
-
+            user.setRoles(getRoles(formUser.isAdmin()));
             user.setEnabled(formUser.isEnabled());
             user.setAdmin(formUser.isAdmin());
-
-            if (user.getId() == null) {
-                userService.save(user);
-            } else {
-                userService.update(user);
-            }
-            return new SaveResponse(true, String.format("User %s %s successfully", user.getUsername(), state), (long) user.getId());
+            user = userService.save(user);
+            return new SaveResponse(true, String.format("User %s created successfully", user.getUsername()), (long) user.getId());
         } catch (Exception e) {
             return new SaveResponse(false, e.getCause().getCause().getMessage(), null);
         }
+    }
+    @PutMapping(value = "", produces = "application/json")
+    @PreAuthorize("hasAuthority('ADMIN_USER')")
+    public SaveResponse updateUser(@Valid @RequestBody UpdateUserRequest formUser) {
+        User user = userService.get(formUser.getId());
+        if (user == null)
+            return new SaveResponse(false, String.format("User with id[%s] doesn't exists", formUser.getId()),null);
+        user.setName(formUser.getName());
+        user.setSurname(formUser.getSurname());
+        user.setRoles(getRoles(formUser.isAdmin()));
+        user.setEnabled(formUser.isEnabled());
+        user.setAdmin(formUser.isAdmin());
+        userService.update(user);
+        return new SaveResponse(true, String.format("User %s created successfully", user.getUsername()), (long) user.getId());
+    }
+
+
+    private List<Role> getRoles(boolean isAdmin) {
+        List<Role> roles = Arrays.asList(new Role(1));
+        if(isAdmin) {
+            roles.add(new Role(2));
+        }
+        return roles;
     }
 
     @GetMapping(value = "/{userId}", produces = "application/json")
